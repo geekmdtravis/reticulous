@@ -5,6 +5,31 @@ import (
 	"strings"
 )
 
+type Zygosity uint8
+
+const (
+	UndeclaredZygosity Zygosity = iota
+	Heterozygous
+	Homozygous
+	Hemizygous
+	NotApplicable
+)
+
+func (z Zygosity) String() string {
+	switch z {
+	case Heterozygous:
+		return "heterozygous"
+	case Homozygous:
+		return "homozygous"
+	case Hemizygous:
+		return "hemizygous"
+	case NotApplicable:
+		return "not applicable"
+	default:
+		return "undeclared"
+	}
+}
+
 type Expression uint8
 
 const (
@@ -50,8 +75,31 @@ func (i Inheritance) String() string {
 	return "undeclared"
 }
 
+type Phenotype uint8
+
+const (
+	UndeclaredPhenotype Phenotype = iota
+	Size
+	Color
+	Pattern
+)
+
+func (p Phenotype) String() string {
+	switch p {
+	case Size:
+		return "size"
+	case Color:
+		return "color"
+	case Pattern:
+		return "pattern"
+	default:
+		return "undeclared"
+	}
+}
+
 // TODO: Plan to handle percentage by adding multiple copies of a non-mendelian gene. E.g. [Jampea, Jampea, Jampea] and [Mainland, Mainland] would be 60% Jampea
 type Gene struct {
+	Phenotype      Phenotype
 	Trait          Trait
 	TraitRelations []TraitRelation
 }
@@ -64,7 +112,15 @@ func NewGene(t Trait, cb func(t Trait) []TraitRelation) Gene {
 }
 
 func (g Gene) Validate() error {
-	errs := make([]string, 0, 1)
+	errs := make([]string, 0, 3)
+
+	if g.Phenotype == UndeclaredPhenotype {
+		errs = append(errs, "phenotype is undeclared")
+	}
+
+	if g.Trait == UndeclaredTrait {
+		errs = append(errs, "trait is undeclared")
+	}
 
 	if len(g.TraitRelations) == 0 {
 		errs = append(errs, "no allelic expression relationships are defined")

@@ -3,7 +3,8 @@ package snake
 type Trait uint16
 
 const (
-	Albino Trait = iota
+	UndeclaredTrait Trait = iota
+	Albino
 	AlbinoBlond
 	AlbinoPurple
 	AlbinoWhite
