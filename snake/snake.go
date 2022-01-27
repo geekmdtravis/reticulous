@@ -1,4 +1,4 @@
-package animal
+package snake
 
 import (
 	"time"
@@ -7,12 +7,17 @@ import (
 	"github.com/geekmdtravis/reticulous/taxonomy"
 )
 
-type Animal struct {
+type Snake struct {
 	DateOfBirth time.Time
 	Name        string
 	NFTAddress  string
 	NFTNetwork  blockchain.Network
 	Gender      Gender
+	Centimeters uint8
+	Grams       uint8
+	Traits      []string
+	Sire        *Snake
+	Dam         *Snake
 	taxonomy.Taxonomy
 }
 
