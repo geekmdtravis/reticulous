@@ -1,13 +1,9 @@
 package snake
 
-type Gene struct {
-	Allele       Allele
-	Relationship []AllelicRelation
-	Inheritance  Inheritance
-	Zygosity     Zygosity
-	Description  string
-	Percentage   float64
-}
+import (
+	"errors"
+	"strings"
+)
 
 type Expression uint8
 
@@ -79,4 +75,41 @@ func (i Inheritance) String() string {
 		return "female sex linked (ZW)"
 	}
 	return "unknown"
+}
+
+type Gene struct {
+	Allele           Allele
+	AllelicRelations []AllelicRelation
+	Inheritance      Inheritance
+	Zygosity         Zygosity
+	Description      string
+	Percentage       float64
+}
+
+func (g Gene) Validate() error {
+	errs := make([]string, 0, 3)
+
+	if len(g.AllelicRelations) == 0 {
+		errs = append(errs, "no allelic expression relationships are defined")
+	}
+
+	pctg50 := int(g.Percentage) == 50
+	pctg100 := int(g.Percentage) == 100
+	if g.Inheritance == Mendelian && !(pctg50 || pctg100) {
+		errs = append(errs, "with Mendelian inheritance, percentage must be 50 or 100")
+	}
+
+	if g.Percentage <= 0 || g.Percentage > 100 {
+		errs = append(errs, "percentage must be greater than 0 and less than or equal to 100")
+	}
+
+	if g.Description == "" {
+		errs = append(errs, "description is empty")
+	}
+
+	if len(errs) == 0 {
+		return nil
+	} else {
+		return errors.New(strings.Join(errs, ", "))
+	}
 }
