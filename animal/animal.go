@@ -8,11 +8,11 @@ import (
 )
 
 type Animal struct {
-	DateOfBirth   time.Time
-	Name          string
-	KeeperAddr    string
-	KeeperNetwork blockchain.Network
-	Gender        Gender
+	DateOfBirth time.Time
+	Name        string
+	NFTAddress  string
+	NFTNetwork  blockchain.Network
+	Gender      Gender
 	taxonomy.Taxonomy
 }
 
