@@ -81,10 +81,10 @@ func setRelations(t snake.Trait) []snake.TraitRelation {
 	case snake.AlbinoPurple:
 		fallthrough
 	case snake.AlbinoWhite:
-		ar = append(ar, snake.TraitRelation{Allele: snake.Albino, Expression: snake.Codominant})
-		ar = append(ar, snake.TraitRelation{Allele: snake.AlbinoBlond, Expression: snake.Codominant})
-		ar = append(ar, snake.TraitRelation{Allele: snake.AlbinoPurple, Expression: snake.Codominant})
-		ar = append(ar, snake.TraitRelation{Allele: snake.AlbinoWhite, Expression: snake.Codominant})
+		ar = append(ar, snake.TraitRelation{Trait: snake.Albino, Expression: snake.Codominant})
+		ar = append(ar, snake.TraitRelation{Trait: snake.AlbinoBlond, Expression: snake.Codominant})
+		ar = append(ar, snake.TraitRelation{Trait: snake.AlbinoPurple, Expression: snake.Codominant})
+		ar = append(ar, snake.TraitRelation{Trait: snake.AlbinoWhite, Expression: snake.Codominant})
 	case snake.Anerythirstic:
 	case snake.Anthrax:
 	case snake.Citrus:
@@ -102,10 +102,10 @@ func setRelations(t snake.Trait) []snake.TraitRelation {
 	case snake.Tiger:
 	case snake.Titanium:
 	case snake.WSexGene:
-		ar = append(ar, snake.TraitRelation{Allele: snake.ZSexGene, Expression: snake.CompleteDominance})
+		ar = append(ar, snake.TraitRelation{Trait: snake.ZSexGene, Expression: snake.CompleteDominance})
 	case snake.ZSexGene:
-		ar = append(ar, snake.TraitRelation{Allele: snake.WSexGene, Expression: snake.Recessive})
-		ar = append(ar, snake.TraitRelation{Allele: snake.ZSexGene, Expression: snake.Codominant})
+		ar = append(ar, snake.TraitRelation{Trait: snake.WSexGene, Expression: snake.Recessive})
+		ar = append(ar, snake.TraitRelation{Trait: snake.ZSexGene, Expression: snake.Codominant})
 	}
 	return ar
 }

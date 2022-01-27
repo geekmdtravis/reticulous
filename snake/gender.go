@@ -3,7 +3,8 @@ package snake
 type Gender uint8
 
 const (
-	Male Gender = iota
+	Undefined Gender = iota
+	Male
 	Female
 	Intersex
 	Unsexed

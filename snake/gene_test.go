@@ -8,7 +8,7 @@ func makeValidGene() Gene {
 	return Gene{
 		Trait: Albino,
 		TraitRelations: []TraitRelation{{
-			Allele:     Albino,
+			Trait:      Albino,
 			Expression: Recessive,
 		}},
 	}

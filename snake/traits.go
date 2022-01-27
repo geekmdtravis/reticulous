@@ -102,6 +102,6 @@ func (a Trait) String() string {
 // `TraitRelation{Allele: Phantom, Expression: Dominant}`, which states
 // That GoldenChild is Dominant to Phantom in generating a phenotype.
 type TraitRelation struct {
-	Allele     Trait
+	Trait      Trait
 	Expression Expression
 }

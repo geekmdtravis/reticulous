@@ -3,7 +3,8 @@ package blockchain
 type Network uint8
 
 const (
-	Ethereum Network = iota
+	Undefined Network = iota
+	Ethereum
 	Polygon
 )
 
