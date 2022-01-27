@@ -8,18 +8,18 @@ import (
 type Expression uint8
 
 const (
-	Complete Expression = iota
-	Incomplete
+	CompleteDominance Expression = iota
+	IncompleteDominance
 	Codominant
 	Recessive
 )
 
 func (d Expression) String() string {
 	switch d {
-	case Complete:
-		return "complete"
-	case Incomplete:
-		return "incomplete"
+	case CompleteDominance:
+		return "complete dominance"
+	case IncompleteDominance:
+		return "incomplete dominance"
 	case Codominant:
 		return "codominant"
 	case Recessive:
@@ -78,29 +78,23 @@ func (i Inheritance) String() string {
 }
 
 type Gene struct {
-	Allele           Allele
-	AllelicRelations []AllelicRelation
-	Inheritance      Inheritance
-	Zygosity         Zygosity
-	Description      string
-	Percentage       float64
+	Trait          Trait
+	traitRelations []TraitRelation
+	Inheritance    Inheritance
+	Zygosity       Zygosity
+	Description    string
+	Percentage     float64
 }
 
 func (g Gene) Validate() error {
 	errs := make([]string, 0, 3)
 
-	if len(g.AllelicRelations) == 0 {
+	if len(g.traitRelations) == 0 {
 		errs = append(errs, "no allelic expression relationships are defined")
 	}
 
-	pctg50 := int(g.Percentage) == 50
-	pctg100 := int(g.Percentage) == 100
-	if g.Inheritance == Mendelian && !(pctg50 || pctg100) {
-		errs = append(errs, "with Mendelian inheritance, percentage must be 50 or 100")
-	}
-
-	if g.Percentage <= 0 || g.Percentage > 100 {
-		errs = append(errs, "percentage must be greater than 0 and less than or equal to 100")
+	if g.Inheritance == Mendelian && !(int(g.Percentage) == 50) {
+		errs = append(errs, "with Mendelian inheritance, percentage must be 50 as each gene can only be 1 of 2 possible")
 	}
 
 	if g.Description == "" {
@@ -112,4 +106,43 @@ func (g Gene) Validate() error {
 	} else {
 		return errors.New(strings.Join(errs, ", "))
 	}
+}
+
+func (g *Gene) UseDefaultAllelicRelations() {
+	ar := []TraitRelation{}
+	switch g.Trait {
+	case Albino:
+		fallthrough
+	case AlbinoBlond:
+		fallthrough
+	case AlbinoPurple:
+		fallthrough
+	case AlbinoWhite:
+		ar = append(ar, TraitRelation{Allele: Albino, Expression: Codominant})
+		ar = append(ar, TraitRelation{Allele: AlbinoBlond, Expression: Codominant})
+		ar = append(ar, TraitRelation{Allele: AlbinoPurple, Expression: Codominant})
+		ar = append(ar, TraitRelation{Allele: AlbinoWhite, Expression: Codominant})
+	case Anerythirstic:
+	case Anthrax:
+	case Citrus:
+	case GeneticStripe:
+	case GoldenChild:
+	case Ghost:
+	case Jaguar:
+	case Hypo:
+	case Mocha:
+	case Motley:
+	case Pied:
+	case Phantom:
+	case Platinum:
+	case Sunfire:
+	case Tiger:
+	case Titanium:
+	case WSexGene:
+		ar = append(ar, TraitRelation{Allele: ZSexGene, Expression: CompleteDominance})
+	case ZSexGene:
+		ar = append(ar, TraitRelation{Allele: WSexGene, Expression: Recessive})
+		ar = append(ar, TraitRelation{Allele: ZSexGene, Expression: Codominant})
+	}
+	g.traitRelations = ar
 }

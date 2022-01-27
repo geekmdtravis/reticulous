@@ -1,9 +1,9 @@
 package snake
 
-type Allele uint16
+type Trait uint16
 
 const (
-	Albino Allele = iota
+	Albino Trait = iota
 	AlbinoBlond
 	AlbinoPurple
 	AlbinoWhite
@@ -23,12 +23,23 @@ const (
 	Sunfire
 	Tiger
 	Titanium
-	ZW
-	ZZ
+	WSexGene
+	ZSexGene
+
+	Kalatoa
+	Madu
+	Karompa
+	Kayuadi
+	Selayer
+	Jampea
+	Mainland
+
+	Dwarf
+	Superdwarf
 )
 
 // String returns the string representation of the allele.
-func (a Allele) String() string {
+func (a Trait) String() string {
 	switch a {
 	case Albino:
 		return "albino"
@@ -68,23 +79,23 @@ func (a Allele) String() string {
 		return "tiger"
 	case Titanium:
 		return "titanium"
-	case ZW:
-		return "female (ZW)"
-	case ZZ:
-		return "male (ZZ)"
+	case WSexGene:
+		return "sex allele W (female determinant)"
+	case ZSexGene:
+		return "sex allele Z"
 	}
 	return "unknown"
 }
 
-// The `AllelicRelation` type should be viewed from on ownership
+// The `TraitRelation` type should be viewed from on ownership
 // perspective. That is, an animal will have/own an allele (e.g. Phantom)
 // and that alleles expression will depend upon its relation to one or more other
-// alleles (e.g. Golden Child). So, Phantom may own an AllelicRelation to
+// alleles (e.g. Golden Child). So, Phantom may own an TraitRelation to
 // Golden Child where Golden Child is Recessive in the Expression type. In that
 // case, we'd create the following:
-// `AllelicRelation{Allele: Phantom, Expression: Dominant}`, which states
+// `TraitRelation{Allele: Phantom, Expression: Dominant}`, which states
 // That GoldenChild is Dominant to Phantom in generating a phenotype.
-type AllelicRelation struct {
-	Allele     Allele
+type TraitRelation struct {
+	Allele     Trait
 	Expression Expression
 }

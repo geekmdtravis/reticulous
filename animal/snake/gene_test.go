@@ -4,8 +4,8 @@ import "testing"
 
 func makeValidGene() Gene {
 	return Gene{
-		Allele: Albino,
-		AllelicRelations: []AllelicRelation{{
+		Trait: Albino,
+		traitRelations: []TraitRelation{{
 			Allele:     Albino,
 			Expression: Recessive,
 		}},
@@ -25,7 +25,7 @@ func TestGene(t *testing.T) {
 	}
 
 	g = makeValidGene()
-	g.AllelicRelations = []AllelicRelation{}
+	g.traitRelations = []TraitRelation{}
 	err = g.Validate()
 	if err == nil {
 		t.Error("expected errors when AllelicRelations is empty")
@@ -36,29 +36,7 @@ func TestGene(t *testing.T) {
 	g.Inheritance = Mendelian
 	err = g.Validate()
 	if err == nil {
-		t.Error("expected errors when percentage is not 50 or 100 and inheritance is Mendelian")
-	}
-
-	g = makeValidGene()
-	g.Percentage = 101
-	err = g.Validate()
-	if err == nil {
-		t.Error("expected errors when percentage is greater than 100")
-	}
-
-	g = makeValidGene()
-	g.Percentage = 99
-	g.Inheritance = Mendelian
-	err = g.Validate()
-	if err == nil {
-		t.Error("expected errors when percentage is not 50 or 100 and inheritance is Mendelian")
-	}
-
-	g = makeValidGene()
-	g.Percentage = -1
-	err = g.Validate()
-	if err == nil {
-		t.Error("expected errors when percentage is less than 0")
+		t.Error("expected errors when percentage is not 50 and inheritance is Mendelian")
 	}
 
 	g = makeValidGene()
