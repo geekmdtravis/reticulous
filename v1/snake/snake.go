@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/geekmdtravis/reticulous/blockchain"
+	"github.com/geekmdtravis/reticulous/v1/blockchain"
 )
 
 type Snake struct {

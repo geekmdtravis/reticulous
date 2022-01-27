@@ -1,7 +1,7 @@
 package retic
 
 import (
-	"github.com/geekmdtravis/reticulous/snake"
+	"github.com/geekmdtravis/reticulous/v1/snake"
 )
 
 func NewRetic(traits []snake.Trait) snake.Snake {

@@ -3,7 +3,7 @@ package retic
 import (
 	"testing"
 
-	"github.com/geekmdtravis/reticulous/snake"
+	"github.com/geekmdtravis/reticulous/v1/snake"
 )
 
 func TestRetic(t *testing.T) {

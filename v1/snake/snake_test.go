@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/geekmdtravis/reticulous/blockchain"
+	"github.com/geekmdtravis/reticulous/v1/blockchain"
 )
 
 func makeValidSnake() Snake {
