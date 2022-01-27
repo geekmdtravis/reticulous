@@ -1,4 +1,4 @@
-package snake
+package retic
 
 import "github.com/geekmdtravis/reticulous/animal"
 

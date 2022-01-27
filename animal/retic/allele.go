@@ -1,4 +1,4 @@
-package snake
+package retic
 
 type Trait uint16
 
