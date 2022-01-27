@@ -27,6 +27,7 @@ const (
 	ZZ
 )
 
+// String returns the string representation of the allele.
 func (a Allele) String() string {
 	switch a {
 	case Albino:
@@ -75,8 +76,15 @@ func (a Allele) String() string {
 	return "unknown"
 }
 
+// The `AllelicRelation` type should be viewed from on ownership
+// perspective. That is, an animal will have/own an allele (e.g. Phantom)
+// and that alleles expression will depend upon its relation to one or more other
+// alleles (e.g. Golden Child). So, Phantom may own an AllelicRelation to
+// Golden Child where Golden Child is Recessive in the Expression type. In that
+// case, we'd create the following:
+// `AllelicRelation{Allele: Phantom, Expression: Dominant}`, which states
+// That GoldenChild is Dominant to Phantom in generating a phenotype.
 type AllelicRelation struct {
-	Allele    Allele
-	Recessive bool
-	Dominance Dominance
+	Allele     Allele
+	Expression Expression
 }

@@ -9,15 +9,16 @@ type Gene struct {
 	Percentage   float64
 }
 
-type Dominance uint8
+type Expression uint8
 
 const (
-	Complete Dominance = iota
+	Complete Expression = iota
 	Incomplete
 	Codominant
+	Recessive
 )
 
-func (d Dominance) String() string {
+func (d Expression) String() string {
 	switch d {
 	case Complete:
 		return "complete"
@@ -25,6 +26,8 @@ func (d Dominance) String() string {
 		return "incomplete"
 	case Codominant:
 		return "codominant"
+	case Recessive:
+		return "recessive"
 	}
 	return "unknown"
 }
