@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/geekmdtravis/reticulous/blockchain"
-	"github.com/geekmdtravis/reticulous/taxonomy"
 )
 
 type Snake struct {
@@ -19,7 +18,7 @@ type Snake struct {
 	Dam         *Snake
 	Genes       []Gene
 	Locales     map[Trait]float32
-	taxonomy.Taxonomy
+	Taxonomy
 }
 
 func (s Snake) Validate() error {

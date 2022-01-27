@@ -1,4 +1,4 @@
-package taxonomy
+package snake
 
 type Taxonomy struct {
 	Genus      string

@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/geekmdtravis/reticulous/blockchain"
-	"github.com/geekmdtravis/reticulous/taxonomy"
 )
 
 func makeValidSnake() Snake {
@@ -40,7 +39,7 @@ func makeValidSnake() Snake {
 		Dam:         &Snake{},
 		Genes:       genes,
 		Locales:     locales,
-		Taxonomy: taxonomy.Taxonomy{
+		Taxonomy: Taxonomy{
 			Genus:      "Malayopython",
 			Species:    "reticulatus",
 			Subspecies: "reticulatus",
