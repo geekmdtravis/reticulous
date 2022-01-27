@@ -26,16 +26,22 @@ const (
 	WSexGene
 	ZSexGene
 
-	Kalatoa
-	Madu
-	Karompa
-	Kayuadi
-	Selayer
-	Jampea
-	Mainland
+	// TODO: Update strings
+	// M. r. reticulatus
+	LocaleMainland
+	LocaleKalatoa
+	LocaleMadu
+	LocaleKarompa
+	// M. r. jampeanus
+	LocaleKayuadi
+	LocaleTanahjampea // AKA Jampea
+	// M. r. saputrai
+	LocaleSelayer
+	// Unknown
+	LocaleUnknown
 
-	Dwarf
-	Superdwarf
+	PosDwarf
+	PosSuperDwarf
 )
 
 // String returns the string representation of the allele.

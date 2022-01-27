@@ -15,31 +15,9 @@ type Snake struct {
 	Gender      Gender
 	Centimeters uint8
 	Grams       uint8
-	Traits      []string
 	Sire        *Snake
 	Dam         *Snake
+	Genes       []Gene
+	Locales     map[Trait]float32
 	taxonomy.Taxonomy
-}
-
-type Gender uint8
-
-const (
-	Male Gender = iota
-	Female
-	Intersex
-	Unsexed
-)
-
-func (g Gender) String() string {
-	switch g {
-	case Male:
-		return "male"
-	case Female:
-		return "female"
-	case Intersex:
-		return "intersex"
-	case Unsexed:
-		return "unsexed"
-	}
-	return "unknown"
 }

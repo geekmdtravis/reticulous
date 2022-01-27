@@ -11,8 +11,6 @@ func makeValidGene() Gene {
 			Allele:     Albino,
 			Expression: Recessive,
 		}},
-		Inheritance: Mendelian,
-		Description: "albino",
 	}
 }
 func TestGene(t *testing.T) {
@@ -29,13 +27,6 @@ func TestGene(t *testing.T) {
 	err = g.Validate()
 	if err == nil {
 		t.Error("expected errors when AllelicRelations is empty")
-	}
-
-	g = makeValidGene()
-	g.Description = ""
-	err = g.Validate()
-	if err == nil {
-		t.Error("expected errors when description is empty")
 	}
 
 }
