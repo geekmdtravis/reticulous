@@ -21,5 +21,5 @@ func (g Gender) String() string {
 	case Unsexed:
 		return "unsexed"
 	}
-	return "unknown"
+	return "undefined"
 }

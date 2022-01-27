@@ -8,7 +8,8 @@ import (
 type Expression uint8
 
 const (
-	CompleteDominance Expression = iota
+	UndeclaredExpression Expression = iota
+	CompleteDominance
 	IncompleteDominance
 	Codominant
 	Recessive
@@ -25,16 +26,16 @@ func (d Expression) String() string {
 	case Recessive:
 		return "recessive"
 	}
-	return "unknown"
+	return "undeclared"
 }
 
 type Inheritance uint8
 
 const (
-	Mendelian Inheritance = iota
+	UndeclaredInheritance Inheritance = iota
+	Mendelian
 	NonMendelian
-	SexLinkedZZMale
-	SexLinkedZWFemale
+	SexLinked
 )
 
 func (i Inheritance) String() string {
@@ -43,12 +44,10 @@ func (i Inheritance) String() string {
 		return "mendelian"
 	case NonMendelian:
 		return "non-mendelian"
-	case SexLinkedZZMale:
-		return "male sex linked (ZZ)"
-	case SexLinkedZWFemale:
-		return "female sex linked (ZW)"
+	case SexLinked:
+		return "female sex linked"
 	}
-	return "unknown"
+	return "undeclared"
 }
 
 // TODO: Plan to handle percentage by adding multiple copies of a non-mendelian gene. E.g. [Jampea, Jampea, Jampea] and [Mainland, Mainland] would be 60% Jampea
@@ -123,7 +122,7 @@ func (g Gene) Inheritance() Inheritance {
 	case WSexGene:
 		fallthrough
 	case ZSexGene:
-		return SexLinkedZWFemale
+		return SexLinked
 	case LocaleMainland:
 		fallthrough
 	case LocaleKalatoa:
