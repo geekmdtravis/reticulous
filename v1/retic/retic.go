@@ -65,6 +65,8 @@ func PredictPairing(r1 Retic, r2 Retic) (map[string][]AllelePair, error) {
 		}
 	}
 
+	// TODO: Recombine allele pairs
+
 	return m, nil
 }
 
