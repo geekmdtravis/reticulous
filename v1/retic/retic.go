@@ -1,6 +1,8 @@
 package retic
 
 import (
+	"fmt"
+	"math"
 	"time"
 
 	"github.com/google/uuid"
@@ -22,55 +24,71 @@ const (
 	SexLinked
 )
 
-type AllelePair struct {
-	A1 Dominance
-	A2 Dominance
+type Allele struct {
+	Trait    string
+	Behavior Expression
+	Variant  Dominance
 }
 
-type Trait struct {
-	Name        string
-	Description string
-	Expression  Expression
-	AllelePair
-}
+type Genotype [2]Allele
+
+type HaploidSet []Allele
 
 type Retic struct {
-	Id         uuid.UUID `json:"id"`
-	Name       string    `json:"name"`
-	Birth      time.Time `json:"birth"`
-	Genus      string    `json:"genus"`
-	Species    string    `json:"species"`
-	Subspecies string    `json:"subspecies"`
-	SireId     string    `json:"sire_id"`
-	DameId     string    `json:"dame_id"`
-	RoomId     string    `json:"room_id"`
-	RackId     string    `json:"rack_id"`
-	BinId      string    `json:"bin_id"`
-	Traits     []Trait   `json:"traits"`
+	Id         uuid.UUID  `json:"id"`
+	Name       string     `json:"name"`
+	Birth      time.Time  `json:"birth"`
+	Genus      string     `json:"genus"`
+	Species    string     `json:"species"`
+	Subspecies string     `json:"subspecies"`
+	SireId     string     `json:"sire_id"`
+	DameId     string     `json:"dame_id"`
+	RoomId     string     `json:"room_id"`
+	RackId     string     `json:"rack_id"`
+	BinId      string     `json:"bin_id"`
+	Genes      []Genotype `json:"genes"`
 }
 
-func PredictPairing(r1 Retic, r2 Retic) (map[string][]AllelePair, error) {
-	m := make(map[string][]AllelePair)
+// Takes a set of genes and turns them into a set of allelic combinations.
+// Simple example:
+// Female [ZW] will turn into the haploid set [Z, W]
+// Intermediate example:
+// Female het Golden child [ZW, Gg] will turn into the haploid set [ZG, Zg, WG, Wg]
+// Complex example:
+// Female, het Golden Child, het Albino [ZW, Gg, Aa] will turn into
+// The haploid set [ZGA, ZGa, ZgA, Zga, WGA, WGa, WgA, Wga]
+func (r Retic) AllelicCombinations() []HaploidSet {
+	geneCnt := len(r.Genes)
+	combinations := int(math.Pow(2, float64(geneCnt)))
+	hs := make([]HaploidSet, combinations)
 
-	for _, t1 := range r1.Traits {
-		for _, t2 := range r2.Traits {
-			if t1.Name == t2.Name {
-				m[t1.Name] = append(m[t1.Name],
-					AllelePair{A1: t1.A1, A2: t2.A1},
-					AllelePair{A1: t1.A1, A2: t2.A2},
-					AllelePair{A1: t1.A2, A2: t2.A1},
-					AllelePair{A1: t1.A2, A2: t2.A2},
-				)
-			}
-		}
+	for i := 0; i < combinations; i++ {
+		g := r.Genes[i%geneCnt]
+		fmt.Println(g)
 	}
-
-	// TODO: Recombine allele pairs
-
-	return m, nil
+	return hs
 }
 
-// Can only pass forward one allele
-//   Z  Z
-// Z ZZ ZZ
-// W WZ WZ
+func PredictPairing(r1 Retic, r2 Retic) ([][]Genotype, error) {
+
+	// TODO: return error if r1 and r2 are not opposite gender
+
+	// TODO: Get full set of possible allele pairs that can be sent for each trait
+	// and for each snake.
+
+	return nil, nil
+}
+
+// Example
+// Male: ZZGg | Female: ZWGG
+//     ZG   Zg   ZG   Zg
+// ZG  ZZGG ZZGg ZZGG ZZGg
+// ZG  ZZGG ZZGg ZZGG ZZGg
+// WG  ZWGG ZWGg ZWGG ZWGg
+// WG  ZWGG ZWGg ZWGG ZWGg
+//
+// Steps:
+// 1. Get all possible combinations for M and F from their allele set.
+// 2. Combine the two sets of combinations.
+//
+// For n alleles there are n^2 combinations

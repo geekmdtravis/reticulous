@@ -1,60 +1,52 @@
 package retic
 
 import (
+	"fmt"
 	"testing"
 )
 
-func TestRetic(t *testing.T) {
-	r1 := Retic{
-		Traits: []Trait{
+func TestAllelicCombinations(t *testing.T) {
+	r := Retic{
+		Genes: []Genotype{
 			{
-				Name:        "Sex",
-				Description: "Female is ZW and male is ZZ",
-				Expression:  SexLinked,
-				AllelePair: AllelePair{
-					A1: Dominant,
-					A2: Recessive,
+				Allele{
+					Trait:    "sex",
+					Behavior: CompleteDominance,
+					Variant:  Dominant,
+				},
+				Allele{
+					Trait:    "sex",
+					Behavior: CompleteDominance,
+					Variant:  Recessive,
 				},
 			},
 			{
-				Name:        "Golden Child",
-				Description: "Pretty",
-				Expression:  SexLinked,
-				AllelePair: AllelePair{
-					A1: Dominant,
-					A2: Recessive,
+				Allele{
+					Trait:    "golden_child",
+					Behavior: CompleteDominance,
+					Variant:  Dominant,
 				},
-			},
-		},
-	}
-	r2 := Retic{
-		Traits: []Trait{
-			{
-				Name:        "Sex",
-				Description: "Female is ZW and male is ZZ",
-				Expression:  CompleteDominance,
-				AllelePair: AllelePair{
-					A1: Recessive,
-					A2: Recessive,
+				Allele{
+					Trait:    "golden_child",
+					Behavior: CompleteDominance,
+					Variant:  Recessive,
 				},
 			},
 			{
-				Name:        "Golden Child",
-				Description: "Pretty",
-				Expression:  CompleteDominance,
-				AllelePair: AllelePair{
-					A1: Dominant,
-					A2: Recessive,
+				Allele{
+					Trait:    "albino",
+					Behavior: CompleteDominance,
+					Variant:  Dominant,
+				},
+				Allele{
+					Trait:    "albino",
+					Behavior: CompleteDominance,
+					Variant:  Recessive,
 				},
 			},
 		},
 	}
-
-	res, err := PredictPairing(r1, r2)
-	if err != nil {
-		t.Error("expected no error, got error")
-	}
-
-	t.Error(res)
-
+	c := r.AllelicCombinations()
+	fmt.Println(c)
+	t.Errorf("not fully implemented")
 }
