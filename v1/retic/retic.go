@@ -1,8 +1,8 @@
 package retic
 
 import (
-	"fmt"
 	"math"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -34,6 +34,18 @@ type Genotype [2]Allele
 
 type HaploidSet []Allele
 
+func (hs HaploidSet) String() string {
+	traitStrings := make([]string, 0)
+	for _, a := range hs {
+		if a.Variant == Dominant {
+			traitStrings = append(traitStrings, strings.ToUpper(a.Trait))
+		} else {
+			traitStrings = append(traitStrings, strings.ToLower(a.Trait))
+		}
+	}
+	return strings.Join(traitStrings, "+")
+}
+
 type Retic struct {
 	Id         uuid.UUID  `json:"id"`
 	Name       string     `json:"name"`
@@ -58,20 +70,34 @@ type Retic struct {
 // Female, het Golden Child, het Albino [ZW, Gg, Aa] will turn into
 // The haploid set [ZGA, ZGa, ZgA, Zga, WGA, WGa, WgA, Wga]
 func (r Retic) AllelicCombinations() []HaploidSet {
-	geneCnt := len(r.Genes)
-	combinations := int(math.Pow(2, float64(geneCnt)))
-	hs := make([]HaploidSet, combinations)
-
-	for i := 0; i < combinations; i++ {
-		// From r.Genes, this indicates the index of the current gene
-		geneIndex := i % geneCnt
-		// Inverted gene index used for setting values in the haploid set
-		invertIndex := geneCnt - geneIndex
-		fmt.Println(invertIndex)
-		g := r.Genes[geneIndex]
-		fmt.Println(g)
-	}
+	cnt := len(r.Genes)
+	hs := make([]HaploidSet, int(math.Pow(2, float64(cnt))))
+	distributeAlleles(&hs, r.Genes, cnt, cnt)
 	return hs
+}
+
+func distributeAlleles(hs *[]HaploidSet, genes []Genotype, index int, count int) {
+	// If only one gene, then just copy the alleles over
+	if len(genes) == 1 {
+		for _, g := range genes {
+			for i, a := range g {
+				(*hs)[count-index] = append((*hs)[i], a)
+			}
+		}
+		return
+	}
+	// grab the first two genes
+	if len(genes) == 2 && count == 2 {
+		for _, g := range genes[0:2] {
+			for i, a := range g {
+				(*hs)[count-index] = append((*hs)[i], a)
+			}
+		}
+	}
+	index -= 2
+	if index > 0 {
+		distributeAlleles(hs, genes[2:], index, count)
+	}
 }
 
 func PredictPairing(r1 Retic, r2 Retic) ([][]Genotype, error) {
