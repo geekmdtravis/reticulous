@@ -63,7 +63,12 @@ func (r Retic) AllelicCombinations() []HaploidSet {
 	hs := make([]HaploidSet, combinations)
 
 	for i := 0; i < combinations; i++ {
-		g := r.Genes[i%geneCnt]
+		// From r.Genes, this indicates the index of the current gene
+		geneIndex := i % geneCnt
+		// Inverted gene index used for setting values in the haploid set
+		invertIndex := geneCnt - geneIndex
+		fmt.Println(invertIndex)
+		g := r.Genes[geneIndex]
 		fmt.Println(g)
 	}
 	return hs
@@ -92,3 +97,16 @@ func PredictPairing(r1 Retic, r2 Retic) ([][]Genotype, error) {
 // 2. Combine the two sets of combinations.
 //
 // For n alleles there are n^2 combinations
+
+/*
+Approaching the problem programmatically; take the following steps:
+Z,W x G,g x A, a
+
+// Multiply the first two
+ZG, Zg, WG, Wg x A, a
+
+// Multiply the result by the second two
+ZGA, ZgA, WGA, WGA, ZGa, Zga, WGa, Wga
+
+Question: will this require recursion?
+*/
